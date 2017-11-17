@@ -1,6 +1,12 @@
-# sunapp-rest-api
+# vingle-internship
 
-sunapp
+vingle
+
+## Before execution
+
+should run the mysql instance and create database using below command
+
+create database vingle;
 
 ## Install It
 ```

@@ -30,8 +30,12 @@ export class Controller {
   }
 
   async getStatsById(req, res, next) {
-    const targetEntity = await ServiceEntity.findById(req.params.urlId);
-    res.send(200, { visits: targetEntity.visits });
+    try {
+      const targetEntity = await ServiceEntity.findById(req.params.urlId);
+      res.send(200, { visits: targetEntity.visits });
+    } catch (e) {
+      next(e);
+    }
   }
 }
 

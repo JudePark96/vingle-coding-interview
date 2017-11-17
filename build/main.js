@@ -535,8 +535,12 @@ let Controller = exports.Controller = class Controller {
   }
 
   async getStatsById(req, res, next) {
-    const targetEntity = await _ServiceEntity2.default.findById(req.params.urlId);
-    res.send(200, { visits: targetEntity.visits });
+    try {
+      const targetEntity = await _ServiceEntity2.default.findById(req.params.urlId);
+      res.send(200, { visits: targetEntity.visits });
+    } catch (e) {
+      next(e);
+    }
   }
 };
 exports.default = new Controller();

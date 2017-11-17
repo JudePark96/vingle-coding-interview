@@ -62,7 +62,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -97,19 +97,45 @@ module.exports = require("express");
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _sequelize = __webpack_require__(3);
+
+var _sequelize2 = _interopRequireDefault(_sequelize);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const sequelize = new _sequelize2.default(process.env.DATABASE_NAME, process.env.USERNAME, process.env.PASSWORD, {
+  host: process.env.HOST,
+  dialect: process.env.DIALECT
+});
+
+module.exports = sequelize;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("sequelize");
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(6);
 
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -119,13 +145,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-__webpack_require__(5);
+__webpack_require__(7);
 
-var _server = __webpack_require__(7);
+var _server = __webpack_require__(9);
 
 var _server2 = _interopRequireDefault(_server);
 
-var _routes = __webpack_require__(18);
+var _routes = __webpack_require__(19);
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -134,13 +160,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new _server2.default().authenticaiton().router(_routes2.default).listen(process.env.PORT);
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dotenv = __webpack_require__(6);
+var _dotenv = __webpack_require__(8);
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
@@ -149,13 +175,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _dotenv2.default.config();
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = require("dotenv");
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -170,11 +196,11 @@ var _express = __webpack_require__(1);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _dbConfig = __webpack_require__(8);
+var _dbConfig = __webpack_require__(2);
 
 var _dbConfig2 = _interopRequireDefault(_dbConfig);
 
-var _path = __webpack_require__(2);
+var _path = __webpack_require__(4);
 
 var path = _interopRequireWildcard(_path);
 
@@ -206,6 +232,10 @@ var _errorHandler = __webpack_require__(17);
 
 var _errorHandler2 = _interopRequireDefault(_errorHandler);
 
+var _ServiceEntity = __webpack_require__(18);
+
+var _ServiceEntity2 = _interopRequireDefault(_ServiceEntity);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -228,6 +258,8 @@ let ExpressServer = class ExpressServer {
       /**
        * 서비스 레벨이 개발 수준이라면 각각의 엔티티를 Sync 하여 테이블을 생성해줄 것.
        */
+      if (process.env.SERVICE_LEVEL === 'develop') _ServiceEntity2.default.sync();
+
       return _logger2.default.info('db authentication done');
     }).catch(err => _logger2.default.info(err));
     return this;
@@ -246,32 +278,6 @@ let ExpressServer = class ExpressServer {
 };
 exports.default = ExpressServer;
 /* WEBPACK VAR INJECTION */}.call(exports, "server/common"))
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _sequelize = __webpack_require__(9);
-
-var _sequelize2 = _interopRequireDefault(_sequelize);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const sequelize = new _sequelize2.default(process.env.DATABASE_NAME, process.env.USERNAME, process.env.PASSWORD, {
-  host: process.env.HOST,
-  dialect: process.env.DIALECT
-});
-
-module.exports = sequelize;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = require("sequelize");
 
 /***/ }),
 /* 10 */
@@ -357,7 +363,7 @@ var _swaggerExpressMiddleware = __webpack_require__(15);
 
 var _swaggerExpressMiddleware2 = _interopRequireDefault(_swaggerExpressMiddleware);
 
-var _path = __webpack_require__(2);
+var _path = __webpack_require__(4);
 
 var path = _interopRequireWildcard(_path);
 
@@ -411,9 +417,38 @@ exports.default = (err, req, res, next) => {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _sequelize = __webpack_require__(3);
+
+var _dbConfig = __webpack_require__(2);
+
+var _dbConfig2 = _interopRequireDefault(_dbConfig);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const serviceEntity = _dbConfig2.default.define('service', {
+  url: { type: _sequelize.DataTypes.STRING, allowNull: false, unique: true },
+  visits: { type: _sequelize.DataTypes.STRING, defaultValue: 0, allowNull: false }
+}, {
+  underscored: true,
+  timestamps: true
+});
+
+exports.default = serviceEntity;
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = routes;
 
-var _router = __webpack_require__(19);
+var _router = __webpack_require__(20);
 
 var _router2 = _interopRequireDefault(_router);
 
@@ -424,7 +459,7 @@ function routes(app) {
 }
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -438,7 +473,7 @@ var _express = __webpack_require__(1);
 
 var express = _interopRequireWildcard(_express);
 
-var _controller = __webpack_require__(20);
+var _controller = __webpack_require__(21);
 
 var _controller2 = _interopRequireDefault(_controller);
 
@@ -449,7 +484,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 exports.default = express.Router().get('/', _controller2.default.all).post('/', _controller2.default.create).get('/:id', _controller2.default.byId);
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -460,7 +495,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Controller = undefined;
 
-var _examples = __webpack_require__(21);
+var _examples = __webpack_require__(22);
 
 var _examples2 = _interopRequireDefault(_examples);
 
@@ -484,7 +519,7 @@ let Controller = exports.Controller = class Controller {
 exports.default = new Controller();
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -498,7 +533,7 @@ var _logger = __webpack_require__(0);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _examplesDb = __webpack_require__(22);
+var _examplesDb = __webpack_require__(23);
 
 var _examplesDb2 = _interopRequireDefault(_examplesDb);
 
@@ -521,7 +556,7 @@ let ExamplesService = class ExamplesService {
 exports.default = new ExamplesService();
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

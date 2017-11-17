@@ -29,7 +29,7 @@ export default class ExpressServer {
         /**
          * 서비스 레벨이 개발 수준이라면 각각의 엔티티를 Sync 하여 테이블을 생성해줄 것.
          */
-        if (PROCESS.env.SERVICE_LEVEL === 'develop') ServiceEntity.sync();
+        if (process.env.SERVICE_LEVEL === 'develop') ServiceEntity.sync();
 
         return l.info('db authentication done');
       })

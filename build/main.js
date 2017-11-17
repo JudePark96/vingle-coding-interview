@@ -62,47 +62,23 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _pino = __webpack_require__(16);
-
-var _pino2 = _interopRequireDefault(_pino);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const l = (0, _pino2.default)({
-  name: process.env.APP_ID,
-  level: process.env.LOG_LEVEL
-});
-
-exports.default = l;
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports) {
 
 module.exports = require("express");
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _sequelize = __webpack_require__(3);
+var _sequelize = __webpack_require__(2);
 
 var _sequelize2 = _interopRequireDefault(_sequelize);
 
@@ -116,26 +92,19 @@ const sequelize = new _sequelize2.default(process.env.DATABASE_NAME, process.env
 module.exports = sequelize;
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports) {
 
 module.exports = require("sequelize");
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(6);
-
-
-/***/ }),
-/* 6 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -145,9 +114,74 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-__webpack_require__(7);
+var _pino = __webpack_require__(17);
 
-var _server = __webpack_require__(9);
+var _pino2 = _interopRequireDefault(_pino);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const l = (0, _pino2.default)({
+  name: process.env.APP_ID,
+  level: process.env.LOG_LEVEL
+});
+
+exports.default = l;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _sequelize = __webpack_require__(2);
+
+var _dbConfig = __webpack_require__(1);
+
+var _dbConfig2 = _interopRequireDefault(_dbConfig);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const serviceEntity = _dbConfig2.default.define('service', {
+  url: {
+    type: _sequelize.DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: { isUrl: true }
+  },
+  visits: { type: _sequelize.DataTypes.INTEGER, defaultValue: 0, allowNull: false }
+}, {
+  underscored: true,
+  timestamps: true
+});
+
+exports.default = serviceEntity;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(7);
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+__webpack_require__(8);
+
+var _server = __webpack_require__(10);
 
 var _server2 = _interopRequireDefault(_server);
 
@@ -160,13 +194,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new _server2.default().authenticaiton().router(_routes2.default).listen(process.env.PORT);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dotenv = __webpack_require__(8);
+var _dotenv = __webpack_require__(9);
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
@@ -175,13 +209,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _dotenv2.default.config();
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("dotenv");
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,47 +226,47 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _express = __webpack_require__(1);
+var _express = __webpack_require__(0);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _dbConfig = __webpack_require__(2);
+var _dbConfig = __webpack_require__(1);
 
 var _dbConfig2 = _interopRequireDefault(_dbConfig);
 
-var _path = __webpack_require__(4);
+var _path = __webpack_require__(3);
 
 var path = _interopRequireWildcard(_path);
 
-var _bodyParser = __webpack_require__(10);
+var _bodyParser = __webpack_require__(11);
 
 var bodyParser = _interopRequireWildcard(_bodyParser);
 
-var _http = __webpack_require__(11);
+var _http = __webpack_require__(12);
 
 var http = _interopRequireWildcard(_http);
 
-var _os = __webpack_require__(12);
+var _os = __webpack_require__(13);
 
 var os = _interopRequireWildcard(_os);
 
-var _cookieParser = __webpack_require__(13);
+var _cookieParser = __webpack_require__(14);
 
 var _cookieParser2 = _interopRequireDefault(_cookieParser);
 
-var _swagger = __webpack_require__(14);
+var _swagger = __webpack_require__(15);
 
 var _swagger2 = _interopRequireDefault(_swagger);
 
-var _logger = __webpack_require__(0);
+var _logger = __webpack_require__(4);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _errorHandler = __webpack_require__(17);
+var _errorHandler = __webpack_require__(18);
 
 var _errorHandler2 = _interopRequireDefault(_errorHandler);
 
-var _ServiceEntity = __webpack_require__(18);
+var _ServiceEntity = __webpack_require__(5);
 
 var _ServiceEntity2 = _interopRequireDefault(_ServiceEntity);
 
@@ -280,31 +314,31 @@ exports.default = ExpressServer;
 /* WEBPACK VAR INJECTION */}.call(exports, "server/common"))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("http");
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("cookie-parser");
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -359,11 +393,11 @@ exports.default = function (app, routes) {
   });
 };
 
-var _swaggerExpressMiddleware = __webpack_require__(15);
+var _swaggerExpressMiddleware = __webpack_require__(16);
 
 var _swaggerExpressMiddleware2 = _interopRequireDefault(_swaggerExpressMiddleware);
 
-var _path = __webpack_require__(4);
+var _path = __webpack_require__(3);
 
 var path = _interopRequireWildcard(_path);
 
@@ -373,39 +407,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* WEBPACK VAR INJECTION */}.call(exports, "server/common/swagger"))
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("swagger-express-middleware");
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("pino");
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _logger = __webpack_require__(0);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = (err, req, res, next) => {
-  _logger2.default.error(err);
-  res.status(500).send(err);
-  next();
-};
 
 /***/ }),
 /* 18 */
@@ -418,23 +429,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _sequelize = __webpack_require__(3);
+var _logger = __webpack_require__(4);
 
-var _dbConfig = __webpack_require__(2);
-
-var _dbConfig2 = _interopRequireDefault(_dbConfig);
+var _logger2 = _interopRequireDefault(_logger);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const serviceEntity = _dbConfig2.default.define('service', {
-  url: { type: _sequelize.DataTypes.STRING, allowNull: false, unique: true },
-  visits: { type: _sequelize.DataTypes.STRING, defaultValue: 0, allowNull: false }
-}, {
-  underscored: true,
-  timestamps: true
-});
-
-exports.default = serviceEntity;
+exports.default = (err, req, res, next) => {
+  _logger2.default.error(err);
+  res.status(500).send(err);
+  next();
+};
 
 /***/ }),
 /* 19 */
@@ -455,7 +460,7 @@ var _router2 = _interopRequireDefault(_router);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function routes(app) {
-  app.use('/api/v1/examples', _router2.default);
+  app.use('/api/v1/service', _router2.default);
 }
 
 /***/ }),
@@ -469,7 +474,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _express = __webpack_require__(1);
+var _express = __webpack_require__(0);
 
 var express = _interopRequireWildcard(_express);
 
@@ -481,7 +486,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-exports.default = express.Router().get('/', _controller2.default.all).post('/', _controller2.default.create).get('/:id', _controller2.default.byId);
+exports.default = express.Router().post('/', _controller2.default.createUrl).get('/:urlId', _controller2.default.getById).get('/:urlId/stats', _controller2.default.getStatsById);
 
 /***/ }),
 /* 21 */
@@ -495,106 +500,46 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Controller = undefined;
 
-var _examples = __webpack_require__(22);
+var _ServiceEntity = __webpack_require__(5);
 
-var _examples2 = _interopRequireDefault(_examples);
+var _ServiceEntity2 = _interopRequireDefault(_ServiceEntity);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 let Controller = exports.Controller = class Controller {
-  all(req, res) {
-    res.send('hello world');
+  async createUrl(req, res, next) {
+    try {
+      _ServiceEntity2.default.findOrCreate({
+        where: { url: req.body.url },
+        defaults: { url: req.body.url }
+      }).spread((service, created) => {
+        const result = `http://localhost:3000/service/${service.dataValues.id}`;
+        if (created) res.send(200, { url: result });else res.send(201, { url: result });
+      });
+    } catch (e) {
+      next(e);
+    }
   }
 
-  byId(req, res) {
-    _examples2.default.byId(req.params.id).then(r => {
-      if (r) res.json(r);else res.status(404).end();
-    });
+  async getById(req, res, next) {
+    try {
+      const targetEntity = await _ServiceEntity2.default.findById(req.params.urlId);
+      targetEntity.visits += 1;
+      const result = await targetEntity.save();
+      res.statusCode = 301;
+      res.setHeader('Location', result.url);
+      res.sendStatus(301);
+    } catch (e) {
+      next(e);
+    }
   }
 
-  create(req, res) {
-    _examples2.default.create(req.body.name).then(r => res.status(201).location(`/api/v1/examples/${r.id}`).json(r));
+  async getStatsById(req, res, next) {
+    const targetEntity = await _ServiceEntity2.default.findById(req.params.urlId);
+    res.send(200, { visits: targetEntity.visits });
   }
 };
 exports.default = new Controller();
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _logger = __webpack_require__(0);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-var _examplesDb = __webpack_require__(23);
-
-var _examplesDb2 = _interopRequireDefault(_examplesDb);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-let ExamplesService = class ExamplesService {
-  all() {
-    return 'Hello World';
-  }
-
-  byId(id) {
-    _logger2.default.info(`${this.constructor.name}.byId(${id})`);
-    return _examplesDb2.default.byId(id);
-  }
-
-  create(name) {
-    return _examplesDb2.default.insert(name);
-  }
-};
-exports.default = new ExamplesService();
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-let ExamplesDatabase = class ExamplesDatabase {
-  constructor() {
-    this._data = [];
-    this._counter = 0;
-
-    this.insert('example 0');
-    this.insert('example 1');
-  }
-
-  all() {
-    return Promise.resolve(this._data);
-  }
-
-  byId(id) {
-    return Promise.resolve(this._data[id]);
-  }
-
-  insert(name) {
-    const record = {
-      id: this._counter,
-      name
-    };
-
-    this._counter += 1;
-    this._data.push(record);
-
-    return Promise.resolve(record);
-  }
-};
-exports.default = new ExamplesDatabase();
 
 /***/ })
 /******/ ]);

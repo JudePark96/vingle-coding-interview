@@ -46,6 +46,10 @@ paths:
       tags:
         - Service
       description: generates record of given URL on Database
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: service
           in: body

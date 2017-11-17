@@ -6,7 +6,9 @@ vingle
 
 should run the mysql instance and create database using below command
 
+```
 create database vingle;
+```
 
 ## Install It
 ```

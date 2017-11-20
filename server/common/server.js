@@ -23,18 +23,9 @@ export default class ExpressServer {
     app.use(Express.static(`${root}/public`));
   }
 
-  authenticaiton() {
-    Sequelize.authenticate()
-      .then(() => {
-        /**
-         * 서비스 레벨이 개발 수준이라면 각각의 엔티티를 Sync 하여 테이블을 생성해줄 것.
-         */
-        if (process.env.SERVICE_LEVEL === 'develop') ServiceEntity.sync();
-
-        return l.info('db authentication done');
-      })
-      .catch(err => l.info(err));
-    return this;
+  async syncSchema() {
+    if (process.env.SERVICE_LEVEL === 'develop') await ServiceEntity.sync();
+    return l.info('db sync done');
   }
 
   router(routes) {

@@ -191,7 +191,10 @@ var _routes2 = _interopRequireDefault(_routes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _server2.default().authenticaiton().router(_routes2.default).listen(process.env.PORT);
+const apiServer = new _server2.default();
+apiServer.syncSchema().then(() => apiServer.router(_routes2.default)).then(() => apiServer.listen(process.env.PORT));
+
+exports.default = apiServer;
 
 /***/ }),
 /* 8 */
@@ -287,16 +290,9 @@ let ExpressServer = class ExpressServer {
     app.use(_express2.default.static(`${root}/public`));
   }
 
-  authenticaiton() {
-    _dbConfig2.default.authenticate().then(() => {
-      /**
-       * 서비스 레벨이 개발 수준이라면 각각의 엔티티를 Sync 하여 테이블을 생성해줄 것.
-       */
-      if (process.env.SERVICE_LEVEL === 'develop') _ServiceEntity2.default.sync();
-
-      return _logger2.default.info('db authentication done');
-    }).catch(err => _logger2.default.info(err));
-    return this;
+  async syncSchema() {
+    if (process.env.SERVICE_LEVEL === 'develop') await _ServiceEntity2.default.sync();
+    return _logger2.default.info('db sync done');
   }
 
   router(routes) {
